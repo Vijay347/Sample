@@ -1,3 +1,11 @@
+ ["2019", "02", "1"]
+filter.pipe.ts:23 (3) ["1", "2", "2019"]
+filter.pipe.ts:22 (3) ["2019", "02", "0"]
+filter.pipe.ts:23 (3) ["1", "2", "2019"]
+filter.pipe.ts:22 (3) ["2019", "02", "0"]
+
+
+
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
