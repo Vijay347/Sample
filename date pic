@@ -1,0 +1,64 @@
+import { Pipe, PipeTransform } from '@angular/core';
+import { DatePipe } from '@angular/common';
+
+@Pipe({
+  name: 'filter'
+})
+export class FilterPipe implements PipeTransform {
+
+    transform(value: any, args?: any): any {
+
+     
+
+    if (args.AllCustSearch) {
+      value = value.filter(custList => custList.customerName.toLowerCase().indexOf(args.AllCustSearch.toLowerCase()) != -1);
+    }
+
+    if(args.StartDateSearch){
+      value = value.filter((productList) => {
+       let Start_Date = productList.creditedDate.slice(0,9).split('-');
+       let startDateSearch = args.StartDateSearch.toLocaleDateString().split('/');
+
+        console.log(Start_Date);
+        console.log(startDateSearch);
+      
+       return new Date(Start_Date[0],Start_Date[1],Start_Date[2]) >= new Date(startDateSearch[2],startDateSearch[0],startDateSearch[1]);
+     });
+   }
+
+   if(args.EndDateSearch){
+      value = value.filter((productList) => {
+       let End_Date = productList.creditedDate.split('-');
+       let endDateSearch = args.EndDateSearch.toLocaleDateString().split('/');
+
+       return new Date(End_Date[0],End_Date[1],End_Date[2]) <= new Date(endDateSearch[2],endDateSearch[0],endDateSearch[1]);
+     });
+   }
+
+//     if(args.StartDateSearch){
+//       value = value.filter((product) => {
+//        let Start_Date = product.creditedDate.substring(0,10).split('-');
+//         let startDateSearch =  this.converttoDate(args.StartDateSearchsplit('-'));
+      
+//        console.log(new Date(Start_Date[0],Start_Date[1]-1,Start_Date[2]) >= new Date();
+//         return new Date(Start_Date[0],Start_Date[1]-1,Start_Date[2]) >= new Date(startDateSearch[0],startDateSearch[1]-1,startDateSearch[2]);
+// return null;     });
+//    }
+//    if(args.EndDateSearch){
+//       value = value.filter((product) => {
+//        let End_Date = product.creditedDate.substring(0,10).split('-');
+//        let endDateSearch = args.EndDateSearch;
+//        return new Date(End_Date[0],End_Date[1]-1,End_Date[2]) <= new Date(endDateSearch[0],endDateSearch[1]-1,endDateSearch[2]);
+//      });
+//    }
+    
+    return value;
+
+  }
+  converttoDate =function(str) {
+    var date = new Date(str),
+        mnth = ("0" + (date.getMonth()+1)).slice(-2),
+        day  = ("0" + date.getDate()).slice(-2);
+    return [ date.getFullYear(), mnth, day ].join("-");
+  }
+}
